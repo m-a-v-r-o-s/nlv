@@ -10,7 +10,8 @@ import { bowImages } from "@/lib/bowImages";
 import { site } from "@/lib/site";
 import { getLang } from "@/lib/lang";
 import { pick, fmtEur } from "@/lib/i18n";
-import { photos } from "@/lib/photos";
+import heroImg from "@/components/hero.webp";
+import showroomImg from "@/components/showroom.webp";
 
 export default async function Home() {
   const lang = await getLang();
@@ -70,11 +71,13 @@ export default async function Home() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="grain relative flex min-h-[100svh] flex-col justify-end overflow-hidden">
         <div className="absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={photos.hero}
+          <Image
+            src={heroImg}
             alt=""
-            className="h-full w-full object-cover opacity-90"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/70" />
           <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-transparent to-transparent" />
@@ -274,12 +277,15 @@ export default async function Home() {
             <Link href="/import" className="btn-gold mt-9">
               {pick(lang, "Ξεκίνα την αναζήτηση", "Start the search")}
             </Link>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={photos.showroom}
-              alt=""
-              className="mt-10 aspect-[1856/1478] w-full rounded-2xl border border-line object-cover object-bottom"
-            />
+            <div className="relative mt-10 aspect-[1856/1478] w-full overflow-hidden rounded-2xl border border-line">
+              <Image
+                src={showroomImg}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover object-bottom"
+              />
+            </div>
           </Reveal>
 
           <Reveal delay={120}>

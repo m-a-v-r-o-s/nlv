@@ -4,7 +4,7 @@ import { nav, site } from "@/lib/site";
 import { type Lang, pick } from "@/lib/i18n";
 import { socialIcons } from "@/lib/socialIcons";
 import { AssistantNavButton } from "./AssistantNavButton";
-import logo from "./bandito-white.png";
+import logo from "./bandito-white.webp";
 
 const socialLinks: [string, string][] = [
   ["Instagram", site.socials.instagram],

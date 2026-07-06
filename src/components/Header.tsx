@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
 import { type Lang, pick, otherLang, LANG_COOKIE } from "@/lib/i18n";
-import logo from "./banditoheader.png";
+import logo from "./banditoheader.webp";
 
 export function Header({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
@@ -53,12 +53,12 @@ export function Header({ lang }: { lang: Lang }) {
           />
         </Link>
 
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-6 md:flex lg:gap-7">
           {nav.map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              className="font-mono text-[12px] uppercase tracking-widest2 text-mute transition-colors hover:text-bone"
+              className="whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-mute transition-colors hover:text-bone"
             >
               {pick(lang, n.el, n.en)}
             </Link>
@@ -66,7 +66,7 @@ export function Header({ lang }: { lang: Lang }) {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event("nlv:assistant-open"))}
-            className="font-mono text-[12px] uppercase tracking-widest2 text-gold transition-colors hover:text-goldsoft"
+            className="whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-gold transition-colors hover:text-goldsoft"
           >
             {"Bandito AI"}
           </button>
