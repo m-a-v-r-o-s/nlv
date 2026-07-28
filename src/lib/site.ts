@@ -5,7 +5,10 @@ export const site = {
   name: "Στεφανίδης ΑΕ",
   short: "Στεφανίδης",
   legalForm: "ΑΕ",
-  tagline: { el: "Οδήγησε το επόμενο", en: "Drive what's next" },
+  tagline: {
+    el: "Από την Ευρώπη, στα χέρια σου",
+    en: "From Europe, into your hands",
+  },
   address: {
     street: "Οδός Παραδείγματος 1",
     area: "Αθήνα",

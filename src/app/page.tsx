@@ -84,9 +84,15 @@ export default async function Home() {
         <div className="shell relative z-10 pb-10 pt-32 md:pb-14">
           <Reveal>
             <h1 className="max-w-4xl font-display text-[clamp(3rem,9vw,7rem)] font-medium leading-[0.92] tracking-tight text-bone">
-              {pick(lang, "Οδήγησε ", "Drive ")}
-              <span className="italic text-gold">
-                {pick(lang, "το επόμενο", "what's next")}
+              {/* Two forced lines so the gold phrase never orphans a word. */}
+              <span className="block">
+                {pick(lang, "Από την Ευρώπη,", "From Europe,")}
+              </span>
+              <span className="block">
+                <span className="italic text-gold">
+                  {pick(lang, "στα χέρια σου", "into your hands")}
+                </span>
+                .
               </span>
             </h1>
           </Reveal>
