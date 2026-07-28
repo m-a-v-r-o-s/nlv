@@ -15,7 +15,6 @@ import {
 } from "@/lib/cars";
 import { CarArt } from "@/components/CarArt";
 import { CarCard } from "@/components/CarCard";
-import { BowMark } from "@/components/BowMark";
 import { site } from "@/lib/site";
 import { getLang } from "@/lib/lang";
 import { pick } from "@/lib/i18n";
@@ -145,8 +144,8 @@ export default async function CarPage({
             <p className="mt-2 text-sm text-mute">
               {pick(
                 lang,
-                "Οι πραγματικές φωτογραφίες & το βίντεο παρουσίασης προστίθενται εδώ.",
-                "Real photos & the video presentation are added here."
+                "Οι πραγματικές φωτογραφίες του οχήματος προστίθενται εδώ.",
+                "The real photos of this car are added here."
               )}
             </p>
           </div>
@@ -189,27 +188,21 @@ export default async function CarPage({
               >
                 {pick(lang, "Στείλε μήνυμα", "Send a message")}
               </a>
-              <a
-                href={site.socials.telegram}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-ghost w-full"
-              >
-                {pick(lang, "Δες στο Telegram", "See it on Telegram")}
-              </a>
             </div>
 
-            {/* Bow cross-sell */}
+            {/* Import cross-sell */}
             <Link
-              href="/bow4car"
-              className="mt-6 flex items-center gap-3 rounded-xl border border-line bg-ink p-4 transition-colors hover:border-corsa/60"
+              href="/import"
+              className="mt-6 block rounded-xl border border-line bg-ink p-4 transition-colors hover:border-gold/60"
             >
-              <BowMark size={34} color="#B01E28" ribbon="#8A1620" tails />
-              <div>
-                <p className="font-display text-[15px] text-bone">
-                  {pick(lang, "Παράδοση με φιόγκο;", "Delivery with a bow?")} →
-                </p>
-              </div>
+              <p className="font-display text-[15px] text-bone">
+                {pick(
+                  lang,
+                  "Ψάχνεις κάτι άλλο; Το φέρνουμε.",
+                  "After something else? We'll import it."
+                )}{" "}
+                →
+              </p>
             </Link>
           </div>
         </aside>

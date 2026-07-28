@@ -2,16 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { CarCard } from "@/components/CarCard";
-import { BowMark } from "@/components/BowMark";
 import { CarLogos } from "@/components/CarLogos";
 import { featuredCars } from "@/lib/cars";
-import { minRent } from "@/lib/bows";
-import { bowImages } from "@/lib/bowImages";
 import { site } from "@/lib/site";
 import { getLang } from "@/lib/lang";
-import { pick, fmtEur } from "@/lib/i18n";
+import { pick } from "@/lib/i18n";
 import heroImg from "@/components/hero.webp";
-import showroomImg from "@/components/showroom.webp";
+import interiorImg from "@/components/interior.webp";
+import handoverImg from "@/components/handover.webp";
 
 export default async function Home() {
   const lang = await getLang();
@@ -19,8 +17,8 @@ export default async function Home() {
 
   const stats: [string, string, string][] = [
     [pick(lang, "Εισαγμένα", "Imported"), "70+", pick(lang, "οχήματα διαθέσιμα", "cars available")],
-    [pick(lang, "Εισαγωγή", "Import"), "4–7", pick(lang, "ημέρες μελέτη κόστους", "days cost study")],
-    [pick(lang, "Παρουσίαση", "Presentation"), "Video", pick(lang, "για κάθε όχημα", "for every car")],
+    [pick(lang, "Εισαγωγή", "Import"), "2–3", pick(lang, "εβδομάδες ως την πινακίδα", "weeks to the plates")],
+    [pick(lang, "Έλεγχος", "Inspection"), "100%", pick(lang, "πριν μπουν στη μάντρα", "before they go on sale")],
   ];
 
   const pillars = [
@@ -48,14 +46,14 @@ export default async function Home() {
     },
     {
       n: "03",
-      t: pick(lang, "Φιόγκος", "The Bow"),
+      t: pick(lang, "Χαρτιά & ταξινόμηση", "Paperwork & plates"),
       d: pick(
         lang,
-        "Ο φιόγκος που κάνει την παράδοση δώρο. Νοίκιασέ τον για τη στιγμή ή απόκτησέ τον.",
-        "The bow that makes a delivery a gift. Rent it for the moment or make it yours."
+        "Εκτελωνισμός, τέλος ταξινόμησης, ΚΤΕΟ και ελληνική πινακίδα. Τα αναλαμβάνουμε όλα εμείς.",
+        "Customs, registration tax, MOT and Greek plates. We take care of all of it."
       ),
-      href: "/bow4car",
-      cta: pick(lang, "Ο φιόγκος", "The bow"),
+      href: "/import#request",
+      cta: pick(lang, "Ρώτησέ μας", "Ask us"),
     },
   ];
 
@@ -63,7 +61,7 @@ export default async function Home() {
     [pick(lang, "Πες μας τι θες", "Tell us what you want"), pick(lang, "Μάρκα, μοντέλο, budget, εξοπλισμός.", "Make, model, budget, options.")],
     [pick(lang, "Αναζήτηση & έλεγχος", "Search & inspection"), pick(lang, "Εντοπίζουμε και ελέγχουμε το όχημα στην πηγή.", "We locate and inspect the car at the source.")],
     [pick(lang, "Πλήρες κόστος", "Full cost"), pick(lang, "Τιμή, μεταφορά, τέλη, όλα στην πόρτα σου.", "Price, transport, taxes, all to your door.")],
-    [pick(lang, "Παράδοση με φιόγκο", "Delivery with a bow"), pick(lang, "Στη Βάρη ή όπου εσύ. Video παρουσίαση δωρεάν.", "In Vari or wherever you are. Free video presentation.")],
+    [pick(lang, "Παράδοση", "Handover"), pick(lang, "Με ελληνική πινακίδα, στην Αθήνα ή όπου εσύ.", "On Greek plates, in Athens or wherever you are.")],
   ];
 
   return (
@@ -86,10 +84,10 @@ export default async function Home() {
         <div className="shell relative z-10 pb-10 pt-32 md:pb-14">
           <Reveal>
             <h1 className="max-w-4xl font-display text-[clamp(3rem,9vw,7rem)] font-medium leading-[0.92] tracking-tight text-bone">
-              {pick(lang, "Ζήσε ", "Live ")}
-              <span className="italic text-gold">Next Level</span>
-              {pick(lang, " με τον ", " with ")}
-              <span className="text-gold">BaNDiTo</span>
+              {pick(lang, "Οδήγησε ", "Drive ")}
+              <span className="italic text-gold">
+                {pick(lang, "το επόμενο", "what's next")}
+              </span>
             </h1>
           </Reveal>
 
@@ -97,8 +95,8 @@ export default async function Home() {
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-bone/80">
               {pick(
                 lang,
-                "Επιλεγμένα premium αυτοκίνητα, εισαγωγή του οχήματος των ονείρων σου κατά παραγγελία, και ο φιόγκος που μετατρέπει την παράδοση σε στιγμή που δεν ξεχνιέται.",
-                "Selected premium cars, the car of your dreams imported to order, and the bow that turns delivery into a moment you never forget."
+                "Επιλεγμένα premium αυτοκίνητα, έτοιμα για παράδοση, και εισαγωγή του οχήματος που ψάχνεις κατά παραγγελία, από την αναζήτηση ως την ελληνική πινακίδα.",
+                "Selected premium cars, ready for delivery, plus import to order of the car you're after — from the search all the way to Greek plates."
               )}
             </p>
           </Reveal>
@@ -108,9 +106,8 @@ export default async function Home() {
               <Link href="/inventory" className="btn-gold">
                 {pick(lang, "Δες τα εισαγμένα αυτοκίνητα", "See imported cars")}
               </Link>
-              <Link href="/bow4car" className="btn-ghost">
-                <BowMark size={16} color="#B01E28" ribbon="#8A1620" />
-                {pick(lang, "Ο φιόγκος", "The bow")}
+              <Link href="/import" className="btn-ghost">
+                {pick(lang, "Ζήτησε εισαγωγή", "Request an import")}
               </Link>
             </div>
           </Reveal>
@@ -180,7 +177,7 @@ export default async function Home() {
               <span className="italic text-gold">
                 {pick(lang, "αναζήτηση", "search")}
               </span>
-              {pick(lang, " ως τον φιόγκο.", " to the bow.")}
+              {pick(lang, " ως την πινακίδα.", " to the plates.")}
             </h2>
           </Reveal>
 
@@ -208,54 +205,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── BOW BAND (the corsa-red world) ───────────────────── */}
-      <section className="grain relative overflow-hidden bg-ink">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            background:
-              "radial-gradient(60% 80% at 80% 30%, rgba(176,30,40,0.35), transparent 70%)",
-          }}
-        />
-        <div className="shell relative grid items-center gap-12 py-20 md:grid-cols-2 md:py-28">
-          <Reveal>
-            <p className="eyebrow" style={{ color: "#D6394A" }}>
-              Bow 4 Car
-            </p>
-            <h2 className="mt-4 font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] text-bone">
-              {pick(lang, "Κάθε κλειδί αξίζει ", "Every key deserves ")}
-              <span className="italic" style={{ color: "#D6394A" }}>
-                {pick(lang, "έναν φιόγκο", "a bow")}
-              </span>
-              .
-            </h2>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-bone/80">
-              {pick(
-                lang,
-                "Ο χειροποίητος φιόγκος που μεταμορφώνει την παράδοση ενός αυτοκινήτου σε αξέχαστη στιγμή. Νοίκιασέ τον για τη μέρα ή κάν' τον δικό σου. Παράδοση σε όλη την Ελλάδα ή παραλαβή από τη Βάρη.",
-                "The handmade bow that turns a car delivery into an unforgettable moment. Rent it for the day or make it yours. Delivery across Greece or pickup from Vari."
-              )}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href="/bow4car" className="btn-corsa">
-                {pick(lang, "Δες τους φιόγκους", "See the bows")}
-              </Link>
-              <span className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-wider text-mute">
-                {pick(lang, "Ενοικίαση από", "Rental from")} {fmtEur(minRent(), lang)}
-              </span>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120} className="flex justify-center">
-            <Image
-              src={bowImages["lite"]}
-              alt={pick(lang, "Αυτοκίνητο με φιόγκο", "Car with a bow")}
-              className="w-full max-w-sm rounded-2xl border border-line"
-            />
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── IMPORT ───────────────────────────────────────────── */}
       <section className="shell py-20 md:py-28">
         <div className="grid gap-14 md:grid-cols-[1fr_1.1fr] md:gap-20">
@@ -277,13 +226,13 @@ export default async function Home() {
             <Link href="/import" className="btn-gold mt-9">
               {pick(lang, "Ξεκίνα την αναζήτηση", "Start the search")}
             </Link>
-            <div className="relative mt-10 aspect-[1856/1478] w-full overflow-hidden rounded-2xl border border-line">
+            <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line">
               <Image
-                src={showroomImg}
+                src={interiorImg}
                 alt=""
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-cover object-bottom"
+                className="object-cover"
               />
             </div>
           </Reveal>
@@ -304,41 +253,48 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── VIDEO / SOCIAL ───────────────────────────────────── */}
+      {/* ── HANDOVER / VISIT ─────────────────────────────────── */}
       <section className="border-t border-line bg-carbon">
-        <div className="shell py-20 md:py-28">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">{pick(lang, "Το κανάλι μας", "Our channel")}</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight text-bone md:text-5xl">
-              {pick(lang, "Κάθε όχημα, σε ", "Every car, on ")}
-              <span className="italic text-gold">{pick(lang, "βίντεο", "video")}</span>.
+        <div className="shell grid items-center gap-12 py-20 md:grid-cols-2 md:py-28">
+          <Reveal>
+            <p className="eyebrow">{pick(lang, "Η παράδοση", "The handover")}</p>
+            <h2 className="mt-4 font-display text-[clamp(2.5rem,6vw,4rem)] leading-[0.95] text-bone">
+              {pick(lang, "Φεύγεις με τα ", "You leave with the ")}
+              <span className="italic text-gold">
+                {pick(lang, "κλειδιά στο χέρι", "keys in hand")}
+              </span>
+              .
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-mute">
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-mute">
               {pick(
                 lang,
-                "Παρουσιάζουμε τιμή, περιγραφή και κάθε λεπτομέρεια πριν έρθεις. Δες όλα τα αυτοκίνητά μας συγκεντρωμένα στα κανάλια μας, με νέο περιεχόμενο στο Telegram.",
-                "We show the price, description and every detail before you visit. See all our cars on our channels, with fresh content on Telegram."
+                "Ελληνική πινακίδα, ΚΤΕΟ και όλα τα χαρτιά τακτοποιημένα πριν σου δώσουμε το κλειδί. Έλα να το δεις από κοντά ή πάρε μας τηλέφωνο.",
+                "Greek plates, MOT and all the paperwork sorted before we hand you the key. Come see it in person, or just give us a call."
               )}
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a href={`tel:${site.phoneHref}`} className="btn-gold">
+                {pick(lang, "Κάλεσε", "Call")} {site.phone}
+              </a>
+              <a href={`mailto:${site.email}`} className="btn-ghost">
+                {pick(lang, "Στείλε email", "Email us")}
+              </a>
+            </div>
+            <p className="mt-6 spec normal-case tracking-normal">
+              {site.address.street} · {site.address.area} {site.address.postal}
             </p>
           </Reveal>
 
-          <Reveal delay={120} className="mt-12 flex flex-wrap justify-center gap-3">
-            {[
-              ["Telegram", site.socials.telegram],
-              ["Instagram", site.socials.instagram],
-              ["TikTok", site.socials.tiktok],
-              ["YouTube", site.socials.youtube],
-            ].map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-ghost"
-              >
-                {label}
-              </a>
-            ))}
+          <Reveal delay={120}>
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-line">
+              <Image
+                src={handoverImg}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 560px"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
         </div>
       </section>

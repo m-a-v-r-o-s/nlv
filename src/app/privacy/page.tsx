@@ -25,8 +25,8 @@ export default async function PrivacyPage() {
           <p>
             {pick(
               lang,
-              "Το πλήρες νομικό κείμενο (GDPR, όροι πώλησης, ενοικίασης φιόγκου και πολιτική cookies) οριστικοποιείται με τον πελάτη πριν το launch.",
-              "The full legal text (GDPR, sale and bow-rental terms, and the cookie policy) is finalised with the client before launch."
+              "Το πλήρες νομικό κείμενο (GDPR, όροι πώλησης και εισαγωγής οχημάτων, πολιτική cookies) οριστικοποιείται με τον πελάτη πριν το launch.",
+              "The full legal text (GDPR, terms of sale and vehicle import, and the cookie policy) is finalised with the client before launch."
             )}
           </p>
           <p>

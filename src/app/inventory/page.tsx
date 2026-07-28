@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { cars } from "@/lib/cars";
 import { InventoryBrowser } from "@/components/InventoryBrowser";
 import { site } from "@/lib/site";
@@ -7,8 +8,7 @@ import { pick } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Εισαγμένα αυτοκίνητα",
-  description:
-    "Τα εισαγμένα αυτοκίνητα της Next Level Vision, premium οχήματα, ελεγμένα και έτοιμα για παράδοση.",
+  description: `Τα εισαγμένα αυτοκίνητα της ${site.name}, premium οχήματα, ελεγμένα και έτοιμα για παράδοση.`,
 };
 
 export default async function InventoryPage() {
@@ -26,18 +26,13 @@ export default async function InventoryPage() {
           <p className="mt-6 text-lg leading-relaxed text-mute">
             {pick(
               lang,
-              "Κάθε όχημα περνά έλεγχο και συνοδεύεται από βίντεο παρουσίαση. Δεν βρίσκεις αυτό που ψάχνεις; Το φέρνουμε με εισαγωγή κατά παραγγελία.",
-              "Every car is inspected and comes with a video presentation. Can't find what you're after? We bring it in with import to order."
+              "Κάθε όχημα περνά πλήρη έλεγχο πριν μπει στη μάντρα. Δεν βρίσκεις αυτό που ψάχνεις; Το φέρνουμε με εισαγωγή κατά παραγγελία.",
+              "Every car goes through a full inspection before it goes on sale. Can't find what you're after? We bring it in with import to order."
             )}
           </p>
-          <a
-            href={site.cargr}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-gold mt-8"
-          >
-            {pick(lang, "Δες όλη τη λίστα στο car.gr", "View the full list on car.gr")} →
-          </a>
+          <Link href="/import" className="btn-gold mt-8">
+            {pick(lang, "Ζήτησε εισαγωγή κατά παραγγελία", "Request an import to order")} →
+          </Link>
         </header>
 
         <div className="mt-14">

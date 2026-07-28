@@ -18,7 +18,7 @@ export function ImportRequest({ lang }: { lang: Lang }) {
   const ready = f.make.trim() && f.name.trim() && f.phone.trim();
 
   function submit() {
-    // Lead pipeline integration point: POST to CRM / email / Telegram bot.
+    // Lead pipeline integration point: POST to CRM / email.
     setSent(true);
   }
 

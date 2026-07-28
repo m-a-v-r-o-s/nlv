@@ -11,7 +11,7 @@ export function AssistantNavButton({
   return (
     <button
       type="button"
-      onClick={() => window.dispatchEvent(new Event("nlv:assistant-open"))}
+      onClick={() => window.dispatchEvent(new Event("stefanidis:assistant-open"))}
       className={className}
     >
       {label}

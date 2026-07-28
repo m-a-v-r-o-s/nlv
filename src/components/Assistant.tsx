@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { type Lang, pick } from "@/lib/i18n";
 import { claudeIconPath } from "@/lib/claudeIcon";
+import { site } from "@/lib/site";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -15,8 +16,8 @@ export function Assistant({ lang }: { lang: Lang }) {
       role: "assistant",
       content: pick(
         lang,
-        "Γεια! Είμαι ο AI βοηθός της Next Level Vision. Ρώτα με για τον στόλο, την εισαγωγή αυτοκινήτου ή τους φιόγκους.",
-        "Hi! I'm the Next Level Vision AI assistant. Ask me about the fleet, importing a car, or the bows."
+        `Γεια! Είμαι ο AI βοηθός της ${site.name}. Ρώτα με για τα διαθέσιμα αυτοκίνητα ή για την εισαγωγή αυτοκινήτου.`,
+        `Hi! I'm the ${site.name} AI assistant. Ask me about the cars we have, or about importing one.`
       ),
     },
   ]);
@@ -31,19 +32,19 @@ export function Assistant({ lang }: { lang: Lang }) {
   // Nav links / CTAs elsewhere open the assistant by dispatching this event.
   useEffect(() => {
     const openIt = () => setOpen(true);
-    window.addEventListener("nlv:assistant-open", openIt);
-    return () => window.removeEventListener("nlv:assistant-open", openIt);
+    window.addEventListener("stefanidis:assistant-open", openIt);
+    return () => window.removeEventListener("stefanidis:assistant-open", openIt);
   }, []);
 
   // Pulse the launcher until it's opened once (persisted).
   useEffect(() => {
-    setPulse(localStorage.getItem("nlv:assistant-seen") !== "1");
+    setPulse(localStorage.getItem("stefanidis:assistant-seen") !== "1");
   }, []);
   useEffect(() => {
     if (open) {
       setPulse(false);
       try {
-        localStorage.setItem("nlv:assistant-seen", "1");
+        localStorage.setItem("stefanidis:assistant-seen", "1");
       } catch {}
     }
   }, [open]);
@@ -74,8 +75,16 @@ export function Assistant({ lang }: { lang: Lang }) {
 
   const suggestions = pick(
     lang,
-    ["Πώς λειτουργεί η εισαγωγή;", "Πόσο κοστίζει ένας φιόγκος;", "Τι αυτοκίνητα έχετε;"],
-    ["How does importing work?", "How much is a bow?", "What cars do you have?"]
+    [
+      "Πώς λειτουργεί η εισαγωγή;",
+      "Πόσο είναι το τέλος ταξινόμησης;",
+      "Τι αυτοκίνητα έχετε;",
+    ],
+    [
+      "How does importing work?",
+      "How much is the registration tax?",
+      "What cars do you have?",
+    ]
   );
 
   async function send(text: string) {
@@ -96,8 +105,8 @@ export function Assistant({ lang }: { lang: Lang }) {
       if (!res.ok || !res.body) {
         const offline = pick(
           lang,
-          "Ο βοηθός είναι προσωρινά εκτός λειτουργίας. Κάλεσέ μας στο 211 42 42 203 ή στείλε μήνυμα στο Telegram.",
-          "The assistant is temporarily offline. Call us at 211 42 42 203 or message us on Telegram."
+          `Ο βοηθός είναι προσωρινά εκτός λειτουργίας. Κάλεσέ μας στο ${site.phone} ή στείλε email στο ${site.email}.`,
+          `The assistant is temporarily offline. Call us at ${site.phone} or email ${site.email}.`
         );
         setMessages((m) => {
           const copy = [...m];
@@ -127,8 +136,8 @@ export function Assistant({ lang }: { lang: Lang }) {
           role: "assistant",
           content: pick(
             lang,
-            "Κάτι πήγε στραβά. Δοκίμασε ξανά ή κάλεσέ μας στο 211 42 42 203.",
-            "Something went wrong. Try again or call us at 211 42 42 203."
+            `Κάτι πήγε στραβά. Δοκίμασε ξανά ή κάλεσέ μας στο ${site.phone}.`,
+            `Something went wrong. Try again or call us at ${site.phone}.`
           ),
         };
         return copy;
@@ -163,7 +172,7 @@ export function Assistant({ lang }: { lang: Lang }) {
             <>
               <ClaudeLogo className="h-7 w-7 fill-current" />
               <span className="font-mono text-[12px] font-semibold uppercase tracking-wider">
-                {pick(lang, "Ρώτα τον BaNDiTo", "Ask BaNDiTo")}
+                {pick(lang, "Ρώτησέ μας", "Ask us")}
               </span>
             </>
           )}
@@ -182,7 +191,7 @@ export function Assistant({ lang }: { lang: Lang }) {
             </span>
             <div className="leading-tight">
               <p className="font-display text-[15px] text-bone">
-                {pick(lang, "Ρώτα τον BaNDiTo", "Ask BaNDiTo")}
+                {pick(lang, "Ρώτησέ μας", "Ask us")}
               </p>
               <p className="font-mono text-[10px] uppercase tracking-wider text-faint">
                 {pick(lang, "AI βοηθός", "AI assistant")}

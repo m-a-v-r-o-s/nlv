@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { ImportRequest } from "@/components/ImportRequest";
 import { getLang } from "@/lib/lang";
 import { pick } from "@/lib/i18n";
+import transportImg from "@/components/transport.webp";
 
 export const metadata: Metadata = {
   title: "Εισαγωγή αυτοκινήτου",
@@ -42,8 +44,8 @@ export default async function ImportPage() {
       pick(lang, "Εκτελωνιστής, ΚΤΕΟ, τέλος ταξινόμησης και ελληνική πινακίδα.", "Customs broker, MOT (KTEO), registration tax and Greek plates."),
     ],
     [
-      pick(lang, "Παράδοση με φιόγκο", "Delivery with a bow"),
-      pick(lang, "Έτοιμο στην Ελλάδα σε 2-3 εβδομάδες, με βίντεο παρουσίαση.", "Ready in Greece in 2-3 weeks, with a video presentation."),
+      pick(lang, "Παράδοση", "Handover"),
+      pick(lang, "Έτοιμο στην Ελλάδα σε 2-3 εβδομάδες, με ελληνική πινακίδα.", "Ready in Greece in 2-3 weeks, on Greek plates."),
     ],
   ];
 
@@ -112,18 +114,32 @@ export default async function ImportPage() {
         </header>
 
         {/* Why it pays off */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          {whyPoints.map(([t, d], i) => (
-            <Reveal key={t} delay={i * 80}>
-              <div className="flex h-full items-start gap-4 rounded-2xl border border-line bg-carbon p-6">
-                <span className="text-2xl text-gold">↓</span>
-                <div>
-                  <h3 className="font-display text-lg text-bone">{t}</h3>
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{d}</p>
+        <div className="mt-12 grid items-center gap-8 md:grid-cols-[1.15fr_1fr] md:gap-12">
+          <div className="grid gap-4">
+            {whyPoints.map(([t, d], i) => (
+              <Reveal key={t} delay={i * 80}>
+                <div className="flex h-full items-start gap-4 rounded-2xl border border-line bg-carbon p-6">
+                  <span className="text-2xl text-gold">↓</span>
+                  <div>
+                    <h3 className="font-display text-lg text-bone">{t}</h3>
+                    <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{d}</p>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={160}>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line md:aspect-[3/4]">
+              <Image
+                src={transportImg}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 480px"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
         </div>
 
         {/* How the final price is calculated */}

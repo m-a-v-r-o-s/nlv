@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { systemPrompt } from "@/lib/assistant";
+import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n";
 
 // The Anthropic SDK needs the Node runtime (not edge).
@@ -66,9 +67,8 @@ export async function POST(req: Request) {
         controller.enqueue(
           encoder.encode(
             lang === "el"
-              ? "\n\nΣυγγνώμη, κάτι πήγε στραβά. Κάλεσέ μας στο " +
-                  "211 42 42 203."
-              : "\n\nSorry, something went wrong. Call us at 211 42 42 203."
+              ? `\n\nΣυγγνώμη, κάτι πήγε στραβά. Κάλεσέ μας στο ${site.phone}.`
+              : `\n\nSorry, something went wrong. Call us at ${site.phone}.`
           )
         );
       } finally {

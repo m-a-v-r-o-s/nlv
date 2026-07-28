@@ -37,8 +37,8 @@ export type Car = {
   highlightsEn: string[];
 };
 
-// Seed set, transcribed from the current car.gr listings screenshot.
-// Real photography and the full stock list get dropped into this array later.
+// Placeholder stock for this demo build — every listing below is made up.
+// Real photography and the actual stock list get dropped into this array later.
 export const cars: Car[] = [
   {
     slug: "ferrari-california-2009",

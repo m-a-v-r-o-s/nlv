@@ -60,9 +60,6 @@
   .btn-gold {
     @apply btn bg-gold text-ink hover:bg-goldsoft;
   }
-  .btn-corsa {
-    @apply btn bg-corsa text-bone hover:bg-corsasoft;
-  }
   .btn-ghost {
     @apply btn border border-line text-bone hover:border-gold hover:text-gold;
   }

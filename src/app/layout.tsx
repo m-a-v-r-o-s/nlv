@@ -5,27 +5,28 @@ import { Footer } from "@/components/Footer";
 import { CookieNotice } from "@/components/CookieNotice";
 import { Assistant } from "@/components/Assistant";
 import { getLang } from "@/lib/lang";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    default: "Next Level Vision",
-    template: "Next Level Vision",
+    default: site.name,
+    template: site.name,
   },
   description:
-    "Premium αυτοκίνητα, εισαγωγή κατά παραγγελία και ο φιόγκος που κάνει την παράδοση αξέχαστη. Βάρη, Αττική.",
+    "Premium εισαγμένα αυτοκίνητα και εισαγωγή κατά παραγγελία από Ευρώπη. Αθήνα, Αττική.",
   keywords: [
     "αυτοκίνητα",
     "εισαγωγή αυτοκινήτου",
-    "φιόγκος αυτοκινήτου",
+    "εισαγμένα αυτοκίνητα",
     "premium cars",
-    "Βάρη",
-    "BANDITO",
-    "Next Level Vision",
+    "car import Greece",
+    "Αθήνα",
+    site.name,
   ],
   openGraph: {
-    title: "Next Level Vision · #BANDITO",
+    title: site.name,
     description:
-      "Premium αυτοκίνητα, εισαγωγή κατά παραγγελία και ο φιόγκος της αξέχαστης στιγμής.",
+      "Premium εισαγμένα αυτοκίνητα και εισαγωγή κατά παραγγελία από Ευρώπη.",
     type: "website",
     locale: "el_GR",
   },

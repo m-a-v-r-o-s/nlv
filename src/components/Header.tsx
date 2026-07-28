@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
 import { type Lang, pick, otherLang, LANG_COOKIE } from "@/lib/i18n";
-import logo from "./banditoheader.webp";
+import { Wordmark } from "./Wordmark";
 
 export function Header({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
@@ -43,14 +42,10 @@ export function Header({ lang }: { lang: Lang }) {
           href="/"
           className="flex items-center"
           onClick={() => setOpen(false)}
-          aria-label="Next Level Vision"
+          aria-label={site.name}
         >
-          <Image
-            src={logo}
-            alt="Next Level Vision"
-            priority
-            className="h-9 w-auto md:h-10"
-          />
+          <Wordmark size="sm" className="md:hidden" />
+          <Wordmark size="md" className="hidden md:inline-flex" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex lg:gap-7">
@@ -65,10 +60,12 @@ export function Header({ lang }: { lang: Lang }) {
           ))}
           <button
             type="button"
-            onClick={() => window.dispatchEvent(new Event("nlv:assistant-open"))}
+            onClick={() =>
+              window.dispatchEvent(new Event("stefanidis:assistant-open"))
+            }
             className="whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-gold transition-colors hover:text-goldsoft"
           >
-            {"Bandito AI"}
+            {pick(lang, "AI βοηθός", "AI assistant")}
           </button>
           <LangToggle lang={lang} onChange={setLang} />
           <a href={`tel:${site.phoneHref}`} className="btn-gold min-w-[7.5rem]">
@@ -131,11 +128,11 @@ export function Header({ lang }: { lang: Lang }) {
             type="button"
             onClick={() => {
               setOpen(false);
-              window.dispatchEvent(new Event("nlv:assistant-open"));
+              window.dispatchEvent(new Event("stefanidis:assistant-open"));
             }}
             className="flex items-center justify-between border-b border-line/60 py-4 font-display text-2xl text-gold"
           >
-            {"Bandito AI"}
+            {pick(lang, "AI βοηθός", "AI assistant")}
             <span>→</span>
           </button>
           <a
