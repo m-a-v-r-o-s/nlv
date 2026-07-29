@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Reveal } from "@/components/Reveal";
 import { ImportRequest } from "@/components/ImportRequest";
 import { getLang } from "@/lib/lang";
 import { pick } from "@/lib/i18n";
@@ -28,7 +27,7 @@ export default async function ImportPage() {
 
   const steps: [string, string][] = [
     [
-      pick(lang, "Πες μας τι ψάχνεις", "Tell us what you're after"),
+      pick(lang, "Πες μας τι ψάχνεις", "Tell us what you’re after"),
       pick(lang, "Μάρκα, μοντέλο, budget και εξοπλισμό. Όσο πιο συγκεκριμένα, τόσο καλύτερα.", "Make, model, budget and options. The more specific, the better."),
     ],
     [
@@ -80,7 +79,7 @@ export default async function ImportPage() {
     [pick(lang, "Τροχόσπιτα", "Motorhomes"), pick(lang, "50% του τέλους", "50% of the tax")],
   ];
 
-  // People-based reductions (not vehicle types) — shown separately.
+  // People-based reductions (not vehicle types), shown separately.
   const specialGroups: [string, string][] = [
     [pick(lang, "Πολύτεκνοι / τρίτεκνοι έως 2.000 cc", "Large families, up to 2,000 cc"), pick(lang, "0€ τέλος ταξινόμησης", "€0 registration tax")],
     [pick(lang, "ΑΜΕΑ", "People with disabilities"), pick(lang, "0€ τέλος ταξινόμησης", "€0 registration tax")],
@@ -96,16 +95,15 @@ export default async function ImportPage() {
     <div className="pt-28 md:pt-36">
       <div className="shell pb-24">
         <header className="max-w-3xl">
-          <p className="eyebrow">{pick(lang, "Εισαγωγή αυτοκινήτου", "Car import")}</p>
-          <h1 className="mt-4 font-display text-[clamp(2.75rem,7vw,5rem)] leading-[0.95] text-bone">
+          <h1 className="font-display text-[clamp(2.75rem,7vw,5rem)] leading-[0.95] text-bone">
             {pick(lang, "Η εισαγωγή ", "Importing ")}
-            <span className="italic text-gold">{pick(lang, "συμφέρει.", "pays off.")}</span>
+            <span className="mark">{pick(lang, "συμφέρει", "pays off")}</span>.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-mute">
             {pick(
               lang,
               "Αναλαμβάνουμε όλη τη διαδικασία, από το πρώτο έως το τελικό στάδιο: αναζήτηση σε Car Markets Γερμανίας και ευρωπαϊκές δημοπρασίες, αγορά, μεταφορά, εκτελωνισμό και ταξινόμηση. Έτοιμο στην Ελλάδα σε 2-3 εβδομάδες.",
-              "We handle the entire process, from the first to the final stage: sourcing from German car markets and European auctions, purchase, transport, customs and registration. Ready in Greece in 2-3 weeks."
+              "We handle the entire process, from the first stage to the last: sourcing from German car markets and European auctions, purchase, transport, customs and registration. Ready in Greece in 2-3 weeks."
             )}
           </p>
           <a href="#request" className="btn-gold mt-8">
@@ -114,74 +112,77 @@ export default async function ImportPage() {
         </header>
 
         {/* Why it pays off */}
-        <div className="mt-12 grid items-center gap-8 md:grid-cols-[1.15fr_1fr] md:gap-12">
-          <div className="grid gap-4">
-            {whyPoints.map(([t, d], i) => (
-              <Reveal key={t} delay={i * 80}>
-                <div className="flex h-full items-start gap-4 rounded-2xl border border-line bg-carbon p-6">
-                  <span className="text-2xl text-gold">↓</span>
-                  <div>
-                    <h3 className="font-display text-lg text-bone">{t}</h3>
-                    <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{d}</p>
-                  </div>
-                </div>
-              </Reveal>
+        <div className="mt-16 grid items-center gap-8 md:grid-cols-[1.15fr_1fr] md:gap-12">
+          <dl className="border-t border-line">
+            {whyPoints.map(([t, d]) => (
+              <div key={t} className="border-b border-line py-6">
+                <dt className="font-display text-xl text-bone">{t}</dt>
+                <dd className="mt-2 text-[15px] leading-relaxed text-mute">{d}</dd>
+              </div>
             ))}
-          </div>
+          </dl>
 
-          <Reveal delay={160}>
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line md:aspect-[3/4]">
-              <Image
-                src={transportImg}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 480px"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
+          <div className="relative aspect-[4/3] w-full overflow-hidden border border-line md:aspect-[3/4]">
+            <Image
+              src={transportImg}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 480px"
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        {/* How the final price is calculated */}
-        <section className="mt-24">
-          <Reveal>
-            <p className="eyebrow">{pick(lang, "Διαφάνεια κόστους", "Cost transparency")}</p>
-            <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-bone md:text-4xl">
-              {pick(lang, "Πώς υπολογίζεται η ", "How the ")}
-              <span className="italic text-gold">{pick(lang, "τελική τιμή", "final price")}</span>
-              {pick(lang, "", " is calculated")}
-            </h2>
-          </Reveal>
-          <ol className="mt-8 flex flex-wrap justify-center gap-4">
+        {/* How the final price is calculated, set as a ledger, because that is
+            what it is: one line per component, totalled at the bottom. */}
+        <section className="mt-28">
+          <h2 className="max-w-2xl font-display text-3xl leading-tight text-bone md:text-4xl">
+            {pick(
+              lang,
+              "Πώς υπολογίζεται η τελική τιμή",
+              "How the final price is calculated"
+            )}
+          </h2>
+
+          <ol className="mt-10 border-t border-line">
             {costParts.map(([t, d], i) => (
-              <Reveal
+              <li
                 key={t}
-                delay={i * 60}
-                className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]"
+                className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline gap-x-4 gap-y-1 border-b border-line py-5 md:grid-cols-[1.5rem_20rem_minmax(0,1fr)]"
               >
-                <li className="h-full rounded-xl border border-line bg-carbon p-6">
-                  <span className="font-mono text-[12px] tracking-widest2 text-gold">
-                    {i === 0 ? "=" : "+"}
-                  </span>
-                  <h3 className="mt-3 font-display text-lg text-bone">{t}</h3>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-mute">{d}</p>
-                </li>
-              </Reveal>
+                <span className="font-mono text-[15px] text-gold">
+                  {i === 0 ? "=" : "+"}
+                </span>
+                <h3 className="font-display text-lg text-bone">{t}</h3>
+                <p className="col-start-2 text-[14px] leading-relaxed text-mute md:col-start-3">
+                  {d}
+                </p>
+              </li>
             ))}
+            <li className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b border-gold/40 py-5">
+              <span className="font-mono text-[15px] text-gold">=</span>
+              <h3 className="font-display text-lg text-gold">
+                {pick(
+                  lang,
+                  "Πλήρες κόστος στην πόρτα σου",
+                  "Full cost, delivered to your door"
+                )}
+              </h3>
+            </li>
           </ol>
         </section>
 
         {/* Registration tax reductions */}
-        <section className="mt-24">
-          <Reveal>
-            <p className="eyebrow">{pick(lang, "Τέλος Ταξινόμησης", "Registration tax")}</p>
-            <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-bone md:text-4xl">
-              {pick(lang, "Ποια οχήματα ", "Which cars ")}
-              <span className="italic text-gold">{pick(lang, "συμφέρουν περισσότερο", "pay off more")}</span>
-            </h2>
-          </Reveal>
+        <section className="mt-20">
+          <h2 className="max-w-2xl font-display text-3xl leading-tight text-bone md:text-4xl">
+            {pick(
+              lang,
+              "Ποια οχήματα συμφέρουν περισσότερο",
+              "Which cars pay off more"
+            )}
+          </h2>
 
-          <div className="mt-8 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+          <div className="mt-8 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2">
             {taxReductions.map(([cat, val], i) => (
               <div
                 key={cat}
@@ -192,7 +193,7 @@ export default async function ImportPage() {
                 }`}
               >
                 <span className="text-[15px] text-bone">{cat}</span>
-                <span className="whitespace-nowrap font-mono text-[13px] text-gold">
+                <span className="num whitespace-nowrap font-mono text-[13px] text-gold">
                   {val}
                 </span>
               </div>
@@ -200,41 +201,44 @@ export default async function ImportPage() {
           </div>
 
           {/* People-based reductions, shown separately */}
-          <p className="mt-10 eyebrow-mute">
+          <h3 className="mt-12 font-display text-xl text-bone">
             {pick(lang, "Ειδικές κατηγορίες δικαιούχων", "Special eligibility groups")}
-          </p>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-faint">
+          </h3>
+          <p className="mt-1.5 text-[14px] leading-relaxed text-faint">
             {pick(
               lang,
               "Αφορούν πρόσωπα, όχι τύπους οχήματος.",
               "These apply to people, not vehicle types."
             )}
           </p>
-          <div className="mt-4 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+          <div className="mt-5 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2">
             {specialGroups.map(([cat, val]) => (
               <div
                 key={cat}
                 className="flex items-center justify-between gap-4 bg-carbon p-5"
               >
                 <span className="text-[15px] text-bone">{cat}</span>
-                <span className="whitespace-nowrap font-mono text-[13px] text-gold">
+                <span className="num whitespace-nowrap font-mono text-[13px] text-gold">
                   {val}
                 </span>
               </div>
             ))}
           </div>
 
-          <p className="mt-10 eyebrow-mute">
+          <h3 className="mt-12 font-display text-xl text-bone">
             {pick(lang, "Περιβαλλοντικό τέλος ανά εκπομπές", "Environmental fee by emissions")}
-          </p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          </h3>
+          <dl className="mt-5 border-t border-line">
             {emissionFees.map(([std, note]) => (
-              <div key={std} className="rounded-xl border border-line bg-carbon p-5">
-                <p className="font-mono text-lg text-bone">{std}</p>
-                <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{note}</p>
+              <div
+                key={std}
+                className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-line py-4"
+              >
+                <dt className="num font-mono text-[15px] text-bone">{std}</dt>
+                <dd className="text-[14px] leading-relaxed text-mute">{note}</dd>
               </div>
             ))}
-          </div>
+          </dl>
 
           <p className="mt-6 text-[13px] leading-relaxed text-faint">
             {pick(
@@ -246,44 +250,43 @@ export default async function ImportPage() {
         </section>
 
         {/* Final step: process + request form */}
-        <section id="request" className="mt-24 scroll-mt-28 border-t border-line pt-16 md:pt-20">
-          <Reveal className="text-center">
-            <p className="eyebrow">{pick(lang, "Ξεκίνα", "Get started")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl font-display text-4xl leading-tight text-bone md:text-5xl">
-              {pick(lang, "Έτοιμος; ", "Ready? ")}
-              <span className="italic text-gold">{pick(lang, "Ζήτησέ το.", "Request it.")}</span>
+        <section id="request" className="mt-28 scroll-mt-28 border-t border-line pt-16 md:pt-24">
+          <div className="max-w-2xl">
+            <h2 className="font-display text-4xl leading-tight text-bone md:text-5xl">
+              {pick(lang, "Έτοιμος; Ζήτησέ το.", "Ready? Request it.")}
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-mute">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-mute">
               {pick(
                 lang,
                 "Πες μας το όχημα που ψάχνεις και ξεκινάμε. Πλήρες κόστος πριν προχωρήσεις, χωρίς δέσμευση.",
-                "Tell us the car you're after and we get started. Full cost before you commit, with no obligation."
+                "Tell us the car you’re after and we get started. Full cost before you commit, with no obligation."
               )}
             </p>
-          </Reveal>
+          </div>
 
           <div className="mt-14 grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
             <div>
-              <p className="eyebrow">{pick(lang, "Η διαδικασία", "The process")}</p>
-              <ol className="mt-6 space-y-px overflow-hidden rounded-xl border border-line bg-line">
+              {/* The one place a numbered label is honest: these steps run in
+                  order and the number is the content, not decoration. */}
+              <h3 className="font-mono text-[11px] uppercase tracking-widest2 text-faint">
+                {pick(lang, "Η διαδικασία", "The process")}
+              </h3>
+              <ol className="mt-6 border-t border-line">
                 {steps.map(([t, d], i) => (
-                  <Reveal key={t} delay={i * 70} className="bg-carbon">
-                    <li className="flex gap-5 p-6">
-                      <span className="font-mono text-[13px] tracking-widest2 text-gold">
-                        0{i + 1}
-                      </span>
-                      <div>
-                        <h3 className="font-display text-xl text-bone">{t}</h3>
-                        <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{d}</p>
-                      </div>
-                    </li>
-                  </Reveal>
+                  <li key={t} className="flex gap-6 border-b border-line py-6">
+                    <span className="num font-mono text-[13px] tracking-widest2 text-gold">
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <h4 className="font-display text-xl text-bone">{t}</h4>
+                      <p className="mt-1.5 text-[14px] leading-relaxed text-mute">{d}</p>
+                    </div>
+                  </li>
                 ))}
               </ol>
             </div>
 
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <p className="eyebrow mb-4">{pick(lang, "Ζήτησέ το", "Request it")}</p>
               <ImportRequest lang={lang} />
             </div>
           </div>

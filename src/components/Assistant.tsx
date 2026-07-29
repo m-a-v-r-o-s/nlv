@@ -17,7 +17,7 @@ export function Assistant({ lang }: { lang: Lang }) {
       content: pick(
         lang,
         `Γεια! Είμαι ο AI βοηθός της ${site.name}. Ρώτα με για τα διαθέσιμα αυτοκίνητα ή για την εισαγωγή αυτοκινήτου.`,
-        `Hi! I'm the ${site.name} AI assistant. Ask me about the cars we have, or about importing one.`
+        `Hi! I’m the ${site.name} AI assistant. Ask me about the cars we have, or about importing one.`
       ),
     },
   ]);
@@ -150,17 +150,19 @@ export function Assistant({ lang }: { lang: Lang }) {
   return (
     <>
       {/* Launcher */}
-      <div className="fixed right-4 z-[60]" style={{ bottom }}>
+      <div className="fixed right-4 z-overlay" style={{ bottom }}>
         {!open && pulse && (
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 rounded-full bg-gold/30 motion-safe:animate-ping"
           />
         )}
+        {/* No shadow: on an ink surface, elevation reads through lightness, and
+            a soft halo around a gold pill is the "glow card" tell. */}
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label={pick(lang, "AI βοηθός", "AI assistant")}
-          className={`relative flex h-14 items-center rounded-full bg-gold text-ink shadow-2xl transition-transform duration-300 ease-lux hover:scale-105 ${
+          className={`relative flex h-14 items-center rounded-full bg-gold text-ink transition-colors duration-200 ease-lux hover:bg-goldsoft ${
             open ? "w-14 justify-center" : "gap-2.5 pl-4 pr-5"
           }`}
         >
@@ -182,10 +184,10 @@ export function Assistant({ lang }: { lang: Lang }) {
       {/* Panel */}
       {open && (
         <div
-          className="fixed right-4 z-[60] flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-line bg-ink shadow-2xl"
+          className="fixed right-4 z-overlay flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden border border-line bg-carbon"
           style={{ bottom: bottom + 64 }}
         >
-          <div className="flex items-center gap-3 border-b border-line bg-carbon px-4 py-3">
+          <div className="flex items-center gap-3 border-b border-line px-4 py-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/15 text-gold">
               <ClaudeLogo className="h-5 w-5 fill-current" />
             </span>
@@ -215,7 +217,7 @@ export function Assistant({ lang }: { lang: Lang }) {
                 className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${
                   m.role === "user"
                     ? "ml-auto bg-gold text-ink"
-                    : "mr-auto border border-line bg-carbon text-bone"
+                    : "mr-auto border border-line bg-smoke text-bone"
                 }`}
               >
                 {m.content ||
@@ -235,7 +237,7 @@ export function Assistant({ lang }: { lang: Lang }) {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="rounded-full border border-line px-3 py-1.5 text-[12px] text-mute transition-colors hover:border-gold hover:text-gold"
+                    className="border border-line px-3 py-1.5 text-[12px] text-mute transition-colors hover:border-gold hover:text-gold"
                   >
                     {s}
                   </button>
@@ -249,7 +251,7 @@ export function Assistant({ lang }: { lang: Lang }) {
               e.preventDefault();
               send(input);
             }}
-            className="flex items-end gap-2 border-t border-line bg-carbon p-3"
+            className="flex items-end gap-2 border-t border-line p-3"
           >
             <textarea
               value={input}

@@ -1,6 +1,6 @@
 import { site } from "@/lib/site";
 
-// Logotype used in the header and footer. Purely typographic — no glyph — so the
+// Logotype used in the header and footer. Purely typographic, no glyph, so the
 // name carries the brand on its own. `size` scales the whole lockup.
 export function Wordmark({
   size = "md",

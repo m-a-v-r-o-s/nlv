@@ -28,6 +28,23 @@ const config: Config = {
       maxWidth: {
         shell: "1240px",
       },
+      // Sharp corners across the board. A dealership is machined metal, not a
+      // rounded app surface — soft radii were the loudest "generic SaaS" tell.
+      borderRadius: {
+        sm: "1px",
+        DEFAULT: "2px",
+        md: "2px",
+        lg: "2px",
+        xl: "3px",
+        "2xl": "4px",
+        "3xl": "6px",
+      },
+      zIndex: {
+        raised: "10",
+        sticky: "30",
+        header: "50",
+        overlay: "60",
+      },
       transitionTimingFunction: {
         lux: "cubic-bezier(0.16, 1, 0.3, 1)",
       },

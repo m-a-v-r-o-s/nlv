@@ -17,21 +17,20 @@ export default async function InventoryPage() {
     <div className="pt-28 md:pt-36">
       <div className="shell pb-16 md:pb-24">
         <header className="max-w-3xl">
-          <p className="eyebrow">{pick(lang, "Εισαγμένα αυτοκίνητα", "Imported cars")}</p>
-          <h1 className="mt-4 font-display text-[clamp(2.75rem,7vw,5rem)] leading-[0.95] text-bone">
+          <h1 className="font-display text-[clamp(2.75rem,7vw,5rem)] leading-[0.95] text-bone">
             {pick(lang, "Επιλεγμένα, ", "Selected, ")}
-            <span className="italic text-gold">{pick(lang, "ελεγμένα", "inspected")}</span>
+            <span className="mark">{pick(lang, "ελεγμένα", "inspected")}</span>
             {pick(lang, ", έτοιμα.", ", ready.")}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-mute">
             {pick(
               lang,
               "Κάθε όχημα περνά πλήρη έλεγχο πριν μπει στη μάντρα. Δεν βρίσκεις αυτό που ψάχνεις; Το φέρνουμε με εισαγωγή κατά παραγγελία.",
-              "Every car goes through a full inspection before it goes on sale. Can't find what you're after? We bring it in with import to order."
+              "Every car goes through a full inspection before it goes on sale. Can’t find what you’re after? We bring it in with import to order."
             )}
           </p>
           <Link href="/import" className="btn-gold mt-8">
-            {pick(lang, "Ζήτησε εισαγωγή κατά παραγγελία", "Request an import to order")} →
+            {pick(lang, "Ζήτησε εισαγωγή", "Request an import")}
           </Link>
         </header>
 

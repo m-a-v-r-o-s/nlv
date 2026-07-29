@@ -13,8 +13,7 @@ export default async function PrivacyPage() {
   return (
     <div className="pt-28 md:pt-36">
       <div className="shell max-w-3xl pb-24">
-        <p className="eyebrow">{pick(lang, "Νομικά", "Legal")}</p>
-        <h1 className="mt-4 font-display text-4xl leading-tight text-bone md:text-5xl">
+        <h1 className="font-display text-4xl leading-tight text-bone md:text-5xl">
           {pick(
             lang,
             "Πολιτική Απορρήτου · Όροι Χρήσης · Cookies",

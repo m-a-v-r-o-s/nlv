@@ -93,15 +93,15 @@ export default async function CarPage({
           </Link>
           <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="eyebrow">{car.year}</p>
-              <h1 className="mt-2 font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] text-bone">
-                {car.make} <span className="italic text-gold">{car.model}</span>
+              <h1 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] text-bone">
+                {car.make} <span className="text-mute">{car.model}</span>{" "}
+                <span className="num text-faint">{car.year}</span>
               </h1>
               <p className="mt-3 max-w-xl text-lg text-mute">
                 {carHeadline(car, lang)}
               </p>
             </div>
-            <p className="font-mono text-3xl text-gold md:text-4xl">
+            <p className="num font-mono text-3xl text-gold md:text-4xl">
               {fmtEur(car.price, lang)}
             </p>
           </div>
@@ -111,53 +111,57 @@ export default async function CarPage({
       <div className="shell grid gap-14 py-16 md:grid-cols-[1.5fr_1fr] md:gap-20 md:py-24">
         {/* Left: specs + highlights */}
         <div>
-          <p className="eyebrow">{pick(lang, "Τεχνικά", "Specs")}</p>
-          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+          <h2 className="font-display text-2xl text-bone">
+            {pick(lang, "Τεχνικά", "Specs")}
+          </h2>
+          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden border border-line bg-line sm:grid-cols-4">
             {specs.map(([k, v]) => (
               <div key={k} className="bg-carbon p-5">
                 <dt className="font-mono text-[11px] uppercase tracking-wider text-faint">
                   {k}
                 </dt>
-                <dd className="mt-2 font-mono text-[15px] text-bone">{v}</dd>
+                <dd className="num mt-2 font-mono text-[15px] text-bone">{v}</dd>
               </div>
             ))}
           </dl>
 
-          <p className="eyebrow mt-14">{pick(lang, "Χαρακτηριστικά", "Highlights")}</p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+          <h2 className="mt-14 font-display text-2xl text-bone">
+            {pick(lang, "Χαρακτηριστικά", "Highlights")}
+          </h2>
+          {/* Plain ruled list: these are facts about the car, not feature
+              cards, and boxing each one was the third card treatment on the
+              page for no gain. */}
+          <ul className="mt-6 grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
             {carHighlights(car, lang).map((h) => (
               <li
                 key={h}
-                className="flex items-start gap-3 rounded-lg border border-line bg-carbon p-4 text-[15px] text-bone"
+                className="flex items-start gap-3 border-b border-line py-3.5 text-[15px] text-bone"
               >
-                <span className="mt-0.5 text-gold">·</span>
+                <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-gold" />
                 {h}
               </li>
             ))}
           </ul>
 
-          {/* Photo placeholder note */}
-          <div className="mt-10 rounded-xl border border-dashed border-line p-6 text-center">
-            <p className="font-mono text-[12px] uppercase tracking-wider text-faint">
-              Gallery
-            </p>
-            <p className="mt-2 text-sm text-mute">
-              {pick(
-                lang,
-                "Οι πραγματικές φωτογραφίες του οχήματος προστίθενται εδώ.",
-                "The real photos of this car are added here."
-              )}
-            </p>
-          </div>
+          {/* Photo placeholder note. Real photography drops in here. */}
+          <p className="mt-10 border-l-2 border-line py-1 pl-4 text-sm leading-relaxed text-faint">
+            {pick(
+              lang,
+              "Οι πραγματικές φωτογραφίες του οχήματος προστίθενται εδώ.",
+              "The real photos of this car are added here."
+            )}
+          </p>
         </div>
 
         {/* Right: sticky action card */}
         <aside className="md:sticky md:top-28 md:self-start">
-          <div className="rounded-2xl border border-line bg-carbon p-7">
-            <div className="flex items-center justify-between">
-              <span className="eyebrow">{pick(lang, "Ενδιαφέρον;", "Interested?")}</span>
+          <div className="border border-line bg-carbon p-7">
+            <div className="flex items-baseline justify-between gap-4">
+              <p className="num font-mono text-3xl text-bone">
+                {fmtEur(car.price, lang)}
+              </p>
               <span
-                className={`rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-wider ${
+                className={`shrink-0 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider ${
                   car.status === "available"
                     ? "bg-gold/15 text-gold"
                     : "bg-corsa/20 text-corsasoft"
@@ -166,10 +170,6 @@ export default async function CarPage({
                 {statusLabel(car.status, lang)}
               </span>
             </div>
-
-            <p className="mt-4 font-mono text-3xl text-bone">
-              {fmtEur(car.price, lang)}
-            </p>
             <p className="mt-1 text-[13px] text-faint">
               {pick(
                 lang,
@@ -179,8 +179,8 @@ export default async function CarPage({
             </p>
 
             <div className="mt-6 flex flex-col gap-3">
-              <a href={`tel:${site.phoneHref}`} className="btn-gold w-full">
-                {pick(lang, "Κάλεσε", "Call")} {site.phone}
+              <a href={`tel:${site.phoneHref}`} className="btn-gold num w-full">
+                {site.phone}
               </a>
               <a
                 href={`mailto:${site.email}?subject=${mailSubject}`}
@@ -189,22 +189,20 @@ export default async function CarPage({
                 {pick(lang, "Στείλε μήνυμα", "Send a message")}
               </a>
             </div>
-
-            {/* Import cross-sell */}
-            <Link
-              href="/import"
-              className="mt-6 block rounded-xl border border-line bg-ink p-4 transition-colors hover:border-gold/60"
-            >
-              <p className="font-display text-[15px] text-bone">
-                {pick(
-                  lang,
-                  "Ψάχνεις κάτι άλλο; Το φέρνουμε.",
-                  "After something else? We'll import it."
-                )}{" "}
-                →
-              </p>
-            </Link>
           </div>
+
+          {/* Import cross-sell: a sibling of the action panel, not nested
+              inside it. One containment layer per idea. */}
+          <Link
+            href="/import"
+            className="mt-4 block border-t border-line pt-4 text-[15px] leading-relaxed text-mute transition-colors hover:text-bone"
+          >
+            {pick(
+              lang,
+              "Ψάχνεις κάτι άλλο; Το φέρνουμε.",
+              "After something else? We’ll import it."
+            )}
+          </Link>
         </aside>
       </div>
 
@@ -212,8 +210,7 @@ export default async function CarPage({
       {also.length > 0 && (
         <section className="border-t border-line bg-carbon">
           <div className="shell py-16 md:py-24">
-            <p className="eyebrow">{pick(lang, "Δες επίσης", "See also")}</p>
-            <h2 className="mt-3 font-display text-3xl text-bone md:text-4xl">
+            <h2 className="font-display text-3xl text-bone md:text-4xl">
               {pick(lang, "Παρόμοια εισαγμένα αυτοκίνητα", "Similar imported cars")}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">

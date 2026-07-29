@@ -9,17 +9,16 @@ export function CarCard({ car, lang }: { car: Car; lang: Lang }) {
       href={`/inventory/${car.slug}`}
       className="card group block focus-visible:outline-none"
     >
+      {/* One hover signal only: the card's border warms. The art doesn't also
+          scale. Two signals for one intent is noise. */}
       <div className="relative aspect-[8/5] overflow-hidden">
-        <CarArt
-          car={car}
-          className="h-full w-full transition-transform duration-700 ease-lux group-hover:scale-[1.04]"
-        />
+        <CarArt car={car} className="h-full w-full" />
         <div className="absolute left-4 top-4 flex items-center gap-2">
-          <span className="rounded-full bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-bone backdrop-blur">
+          <span className="num bg-ink/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-bone backdrop-blur">
             {car.year}
           </span>
           {car.status !== "available" && (
-            <span className="rounded-full bg-corsa px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-bone">
+            <span className="bg-corsa px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-bone">
               {statusLabel(car.status, lang)}
             </span>
           )}
@@ -36,7 +35,7 @@ export function CarCard({ car, lang }: { car: Car; lang: Lang }) {
               {carHeadline(car, lang)}
             </p>
           </div>
-          <p className="whitespace-nowrap font-mono text-lg text-gold">
+          <p className="num whitespace-nowrap font-mono text-lg text-gold">
             {fmtEur(car.price, lang)}
           </p>
         </div>
@@ -55,7 +54,7 @@ export function CarCard({ car, lang }: { car: Car; lang: Lang }) {
 function Spec({ k, v }: { k: string; v: string }) {
   return (
     <div>
-      <dd className="font-mono text-[13px] text-bone">{v}</dd>
+      <dd className="num font-mono text-[13px] text-bone">{v}</dd>
       <dt className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-faint">
         {k}
       </dt>

@@ -1,3 +1,9 @@
+/* Hallmark · macrostructure: Photographic hero + index rows · genre: editorial
+ * tone: austere / luxury · anchor hue: warm (gold ~40°) · paper band: dark
+ * display: roman serif (Fraunces), never italic · nav: masthead rail
+ * footer: statement close · enrichment: none (photography + typography)
+ * pre-emit critique: P4 H5 E4 S5 R5 V4
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -48,14 +54,18 @@
     @apply font-mono text-[11px] uppercase tracking-widest2 text-faint;
   }
 
-  /* Data cluster — the instrument-readout look for car specs */
+  /* Data cluster: the instrument-readout look for car specs */
   .spec {
     @apply font-mono text-[12px] uppercase tracking-wider text-mute;
   }
 
+  /* Square-shouldered buttons. Named transitions only, never transition-all. */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
-           font-mono text-[12px] uppercase tracking-widest2 transition-all duration-500 ease-lux;
+    @apply inline-flex items-center justify-center gap-2 rounded-[2px] px-6 py-3
+           font-mono text-[12px] uppercase tracking-widest2;
+    transition: background-color 180ms theme("transitionTimingFunction.lux"),
+      border-color 180ms theme("transitionTimingFunction.lux"),
+      color 180ms theme("transitionTimingFunction.lux");
   }
   .btn-gold {
     @apply btn bg-gold text-ink hover:bg-goldsoft;
@@ -69,10 +79,32 @@
   }
 
   .card {
-    @apply relative overflow-hidden rounded-xl border border-line bg-carbon transition-all duration-500 ease-lux;
+    @apply relative overflow-hidden border border-line bg-carbon;
+    transition: border-color 220ms theme("transitionTimingFunction.lux");
   }
   .card:hover {
     @apply border-gold/50;
+  }
+
+  /* Emphasis inside a heading: roman weight, accent colour, drawn rule beneath.
+     Never italic, and used once per page at most, on the page's own landmark. */
+  .mark {
+    @apply text-gold;
+    background-image: linear-gradient(
+      theme("colors.gold"),
+      theme("colors.gold")
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-position: 0 100%;
+    /* Clears the descenders on ρ / χ / γ at display sizes. */
+    padding-bottom: 0.1em;
+  }
+
+  /* Instrument readouts align in columns. */
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
   }
 
   /* Fine film grain overlay for the cinematic base */
@@ -99,7 +131,8 @@
   transform: none;
 }
 
-/* Marquee for the social/status ticker */
+/* Marquee for the brand strip. WCAG 2.2.2 wants a pause mechanism for motion
+   that runs longer than 5s. Hovering or tabbing into the strip halts it. */
 @keyframes ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -108,6 +141,10 @@
   display: inline-flex;
   white-space: nowrap;
   animation: ticker 70s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

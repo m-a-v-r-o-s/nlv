@@ -14,7 +14,7 @@ const MAX_CHARS = 2000; // per message
 
 export async function POST(req: Request) {
   if (!process.env.ANTHROPIC_API_KEY) {
-    // Graceful "offline" — the widget shows a friendly fallback.
+    // Graceful "offline": the widget shows a friendly fallback.
     return new Response("offline", { status: 503 });
   }
 

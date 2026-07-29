@@ -4,97 +4,81 @@ import { type Lang, pick } from "@/lib/i18n";
 import { AssistantNavButton } from "./AssistantNavButton";
 import { Wordmark } from "./Wordmark";
 
+// Closes the page with a statement and the address, the way a showroom's own
+// stationery would. Not a sitemap: four destinations don't need four columns.
 export function Footer({ lang }: { lang: Lang }) {
   return (
     <footer id="contact" className="relative border-t border-line bg-carbon">
       <div className="shell py-16 md:py-24">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <Wordmark size="lg" />
-            <p className="mt-6 max-w-sm font-display text-2xl leading-snug text-bone/90">
-              {pick(
-                lang,
-                "Το επόμενο αυτοκίνητό σου ξεκινά εδώ.",
-                "Your next car starts here."
-              )}
-            </p>
-            <p className="mt-6 spec normal-case tracking-normal text-mute">
-              {pick(lang, site.tagline.el, site.tagline.en)} · {site.name}
-            </p>
-          </div>
+        <Wordmark size="lg" />
 
-          <div>
-            <p className="eyebrow-mute">{pick(lang, "Πλοήγηση", "Navigation")}</p>
-            <ul className="mt-5 space-y-3">
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <Link
-                    href={n.href}
-                    className="text-mute transition-colors hover:text-bone"
-                  >
-                    {pick(lang, n.el, n.en)}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <AssistantNavButton
-                  label={pick(lang, "AI βοηθός", "AI assistant")}
-                  className="text-gold transition-colors hover:text-goldsoft"
-                />
-              </li>
-            </ul>
-          </div>
+        <p className="mt-10 max-w-3xl font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-bone">
+          {pick(
+            lang,
+            "Το επόμενο αυτοκίνητό σου ξεκινά εδώ.",
+            "Your next car starts here."
+          )}
+        </p>
 
-          <div>
-            <p className="eyebrow-mute">{pick(lang, "Επικοινωνία", "Contact")}</p>
-            <ul className="mt-5 space-y-3 text-mute">
-              <li>
-                <address className="not-italic">
-                  {site.address.street}
-                  <br />
-                  {site.address.area} {site.address.postal},{" "}
-                  {site.address.region}
-                </address>
-              </li>
-              <li>
-                <a
-                  href={`tel:${site.phoneHref}`}
-                  className="font-mono transition-colors hover:text-gold"
-                >
-                  {site.phone}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="transition-colors hover:text-bone"
-                >
-                  {site.email}
-                </a>
-              </li>
-            </ul>
+        <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-[1.4fr_1fr] sm:items-start">
+          <address className="not-italic leading-relaxed text-mute">
+            {site.address.street}
+            <br />
+            {site.address.area} {site.address.postal}, {site.address.region}
+            <br />
+            <a
+              href={`tel:${site.phoneHref}`}
+              className="num font-mono text-bone transition-colors hover:text-gold"
+            >
+              {site.phone}
+            </a>
+            {" · "}
+            <a
+              href={`mailto:${site.email}`}
+              className="transition-colors hover:text-bone"
+            >
+              {site.email}
+            </a>
+          </address>
 
-            <Link href="/import" className="btn-ghost mt-7">
+          <div className="sm:justify-self-end">
+            <Link href="/import" className="btn-ghost">
               {pick(lang, "Ζήτησε εισαγωγή", "Request an import")}
             </Link>
           </div>
         </div>
 
-        <div className="hairline mt-14 flex flex-col gap-3 pt-6 text-[12px] text-faint sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col gap-1">
-            <span>
-              © {new Date().getFullYear()} {site.name}
-            </span>
-            <span>© 2026 AKOS DIGITAL. All rights reserved.</span>
-          </div>
-          <Link href="/privacy" className="transition-colors hover:text-mute">
+        <nav className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-line pt-8 font-mono text-[11px] uppercase tracking-wider">
+          {nav.map((n) => (
+            <Link
+              key={n.href}
+              href={n.href}
+              className="whitespace-nowrap text-mute transition-colors hover:text-bone"
+            >
+              {pick(lang, n.el, n.en)}
+            </Link>
+          ))}
+          <AssistantNavButton
+            label={pick(lang, "AI βοηθός", "AI assistant")}
+            className="whitespace-nowrap text-mute transition-colors hover:text-bone"
+          />
+          <Link
+            href="/privacy"
+            className="whitespace-nowrap text-faint transition-colors hover:text-mute sm:ml-auto"
+          >
             {pick(
               lang,
-              "Πολιτική Απορρήτου · Όροι Χρήσης · Cookies",
-              "Privacy Policy · Terms · Cookies"
+              "Απόρρητο · Όροι · Cookies",
+              "Privacy · Terms · Cookies"
             )}
           </Link>
-        </div>
+        </nav>
+
+        <p className="mt-8 text-[12px] leading-relaxed text-faint">
+          © {new Date().getFullYear()} {site.name} ·{" "}
+          {pick(lang, site.tagline.el, site.tagline.en)}
+          <br />© 2026 AKOS DIGITAL. All rights reserved.
+        </p>
       </div>
     </footer>
   );

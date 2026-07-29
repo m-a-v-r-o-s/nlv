@@ -32,7 +32,7 @@ export function ImportRequest({ lang }: { lang: Lang }) {
           {pick(
             lang,
             `${f.name}, ξεκινάμε την αναζήτηση για ${f.make}. Θα σε καλέσουμε στο ${f.phone} με τις πρώτες επιλογές και πλήρες κόστος.`,
-            `${f.name}, we're starting the search for ${f.make}. We'll call you on ${f.phone} with the first options and the full cost.`
+            `${f.name}, we’re starting the search for ${f.make}. We’ll call you on ${f.phone} with the first options and the full cost.`
           )}
         </p>
         <a href={`tel:${site.phoneHref}`} className="btn-gold mt-8">

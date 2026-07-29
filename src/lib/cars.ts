@@ -37,7 +37,7 @@ export type Car = {
   highlightsEn: string[];
 };
 
-// Placeholder stock for this demo build — every listing below is made up.
+// Placeholder stock for this demo build. Every listing below is made up.
 // Real photography and the actual stock list get dropped into this array later.
 export const cars: Car[] = [
   {

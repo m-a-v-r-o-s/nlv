@@ -7,7 +7,7 @@ import { type Lang, pick } from "@/lib/i18n";
 const ACK = "cookie-consent";
 
 // Consent is stored as "all" (essential + analytics) or "necessary". Analytics
-// isn't wired yet — this records the preference for when it goes live.
+// isn't wired yet, so this records the preference for when it goes live.
 export function CookieNotice({ lang }: { lang: Lang }) {
   const [show, setShow] = useState(false);
 
@@ -29,15 +29,15 @@ export function CookieNotice({ lang }: { lang: Lang }) {
     <div
       role="dialog"
       aria-label="Cookies"
-      className="fixed bottom-4 left-4 right-4 z-[60] sm:right-auto sm:max-w-sm"
+      className="fixed bottom-4 left-4 right-4 z-overlay sm:right-auto sm:max-w-sm"
     >
-      <div className="grain relative overflow-hidden rounded-2xl border border-line bg-ink/90 p-6 shadow-2xl backdrop-blur-md">
-        <p className="eyebrow">Cookies</p>
+      <div className="grain relative overflow-hidden border border-line bg-carbon/95 p-6 backdrop-blur-md">
+        <p className="font-display text-lg text-bone">Cookies</p>
         <p className="mt-3 text-[13px] leading-relaxed text-mute">
           {pick(
             lang,
             "Χρησιμοποιούμε απαραίτητα cookies για να λειτουργεί ο ιστότοπος (όπως η προτίμηση γλώσσας) και cookies analytics για να καταλαβαίνουμε πώς χρησιμοποιείται και να τον βελτιώνουμε.",
-            "We use essential cookies for the site to work (like your language preference) and analytics cookies to understand how it's used and improve it."
+            "We use essential cookies for the site to work (like your language preference) and analytics cookies to understand how it’s used and improve it."
           )}{" "}
           <Link href="/privacy" className="text-gold transition-colors hover:text-goldsoft">
             {pick(lang, "Πολιτική Απορρήτου", "Privacy Policy")}

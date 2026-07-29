@@ -7,6 +7,12 @@ import { nav, site } from "@/lib/site";
 import { type Lang, pick, otherLang, LANG_COOKIE } from "@/lib/i18n";
 import { Wordmark } from "./Wordmark";
 
+// A dealership masthead, not a product nav: the destinations sit in a quiet
+// mono rail and the right edge carries the phone number itself rather than a
+// "Call" pill. A showroom's primary action is the number, spelled out.
+//
+// The rail unfolds at lg, not md: the Greek labels are long enough that the
+// full set doesn't fit a 768px line without squeezing.
 export function Header({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -31,7 +37,7 @@ export function Header({ lang }: { lang: Lang }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-lux ${
+      className={`fixed inset-x-0 top-0 z-header transition-colors duration-500 ease-lux ${
         solid || open
           ? "border-b border-line bg-ink/90 backdrop-blur-md"
           : "border-b border-transparent"
@@ -44,11 +50,11 @@ export function Header({ lang }: { lang: Lang }) {
           onClick={() => setOpen(false)}
           aria-label={site.name}
         >
-          <Wordmark size="sm" className="md:hidden" />
-          <Wordmark size="md" className="hidden md:inline-flex" />
+          <Wordmark size="sm" className="lg:hidden" />
+          <Wordmark size="md" className="hidden lg:inline-flex" />
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex lg:gap-7">
+        <nav className="hidden items-center gap-7 lg:flex">
           {nav.map((n) => (
             <Link
               key={n.href}
@@ -63,17 +69,24 @@ export function Header({ lang }: { lang: Lang }) {
             onClick={() =>
               window.dispatchEvent(new Event("stefanidis:assistant-open"))
             }
-            className="whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-gold transition-colors hover:text-goldsoft"
+            className="group flex items-center gap-2 whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-mute transition-colors hover:text-bone"
           >
+            <span className="h-1 w-1 shrink-0 rounded-full bg-gold" />
             {pick(lang, "AI βοηθός", "AI assistant")}
           </button>
-          <LangToggle lang={lang} onChange={setLang} />
-          <a href={`tel:${site.phoneHref}`} className="btn-gold min-w-[7.5rem]">
-            {pick(lang, "Κάλεσε", "Call")}
+
+          <span aria-hidden="true" className="h-4 w-px bg-line" />
+
+          <a
+            href={`tel:${site.phoneHref}`}
+            className="num whitespace-nowrap font-mono text-[13px] tracking-wide text-gold transition-colors hover:text-goldsoft"
+          >
+            {site.phone}
           </a>
+          <LangToggle lang={lang} onChange={setLang} />
         </nav>
 
-        <div className="flex items-center gap-3 md:hidden">
+        <div className="flex items-center gap-3 lg:hidden">
           <LangToggle lang={lang} onChange={setLang} />
           <button
             className="flex h-10 w-10 items-center justify-center"
@@ -87,17 +100,17 @@ export function Header({ lang }: { lang: Lang }) {
           >
             <span className="relative block h-4 w-6">
               <span
-                className={`absolute left-0 h-[1.5px] w-6 bg-bone transition-all duration-300 ${
+                className={`absolute left-0 h-[1.5px] w-6 bg-bone transition-[top,transform] duration-300 ease-lux ${
                   open ? "top-1/2 rotate-45" : "top-0"
                 }`}
               />
               <span
-                className={`absolute left-0 top-1/2 h-[1.5px] w-6 -translate-y-1/2 bg-bone transition-all duration-300 ${
+                className={`absolute left-0 top-1/2 h-[1.5px] w-6 -translate-y-1/2 bg-bone transition-opacity duration-300 ease-lux ${
                   open ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
-                className={`absolute left-0 h-[1.5px] w-6 bg-bone transition-all duration-300 ${
+                className={`absolute left-0 h-[1.5px] w-6 bg-bone transition-[bottom,top,transform] duration-300 ease-lux ${
                   open ? "top-1/2 -rotate-45" : "bottom-0"
                 }`}
               />
@@ -108,7 +121,7 @@ export function Header({ lang }: { lang: Lang }) {
 
       {/* Mobile sheet */}
       <div
-        className={`md:hidden overflow-hidden bg-ink transition-[max-height] duration-500 ease-lux ${
+        className={`overflow-hidden bg-ink transition-[max-height] duration-500 ease-lux lg:hidden ${
           open ? "max-h-[80vh] border-t border-line" : "max-h-0"
         }`}
       >
@@ -121,7 +134,6 @@ export function Header({ lang }: { lang: Lang }) {
               className="flex items-center justify-between border-b border-line/60 py-4 font-display text-2xl text-bone"
             >
               {pick(lang, n.el, n.en)}
-              <span className="text-gold">→</span>
             </Link>
           ))}
           <button
@@ -130,14 +142,14 @@ export function Header({ lang }: { lang: Lang }) {
               setOpen(false);
               window.dispatchEvent(new Event("stefanidis:assistant-open"));
             }}
-            className="flex items-center justify-between border-b border-line/60 py-4 font-display text-2xl text-gold"
+            className="flex items-center gap-3 border-b border-line/60 py-4 font-display text-2xl text-bone"
           >
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
             {pick(lang, "AI βοηθός", "AI assistant")}
-            <span>→</span>
           </button>
           <a
             href={`tel:${site.phoneHref}`}
-            className="btn-gold mt-5 w-full"
+            className="btn-gold num mt-5 w-full"
             onClick={() => setOpen(false)}
           >
             {site.phone}
@@ -160,12 +172,12 @@ function LangToggle({
       type="button"
       onClick={() => onChange(otherLang(lang))}
       aria-label={`Switch language to ${lang === "el" ? "English" : "Greek"}`}
-      className="flex items-center rounded-full border border-line p-[2px] font-mono text-[10px] uppercase tracking-wide"
+      className="flex items-center border border-line p-[2px] font-mono text-[10px] uppercase tracking-wide"
     >
       {(["el", "en"] as Lang[]).map((l) => (
         <span
           key={l}
-          className={`rounded-full px-2 py-0.5 transition-colors ${
+          className={`px-2 py-0.5 transition-colors ${
             lang === l ? "bg-gold text-ink" : "text-mute"
           }`}
         >

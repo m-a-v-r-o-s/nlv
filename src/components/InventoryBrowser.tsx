@@ -74,7 +74,7 @@ export function InventoryBrowser({ cars, lang }: { cars: Car[]; lang: Lang }) {
   return (
     <>
       {/* Filter bar */}
-      <div className="sticky top-16 z-30 -mx-5 mb-10 border-y border-line bg-ink/90 px-5 py-4 backdrop-blur md:top-20 md:mx-0 md:rounded-xl md:border md:px-6">
+      <div className="sticky top-16 z-sticky -mx-5 mb-10 border-y border-line bg-ink/90 px-5 py-4 backdrop-blur md:top-20 md:mx-0 md:border md:px-6">
         <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
           <Chips
             label={pick(lang, "Μάρκα", "Make")}
@@ -97,7 +97,7 @@ export function InventoryBrowser({ cars, lang }: { cars: Car[]; lang: Lang }) {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
-              className="rounded-full border border-line bg-carbon px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-bone focus-visible:border-gold"
+              className="border border-line bg-carbon px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-bone focus-visible:border-gold"
             >
               {(["featured", "price-asc", "price-desc", "year-desc", "km-asc"] as Sort[]).map(
                 (s) => (
@@ -111,12 +111,12 @@ export function InventoryBrowser({ cars, lang }: { cars: Car[]; lang: Lang }) {
         </div>
       </div>
 
-      <p className="mb-6 font-mono text-[12px] uppercase tracking-wider text-faint">
+      <p className="num mb-6 font-mono text-[12px] uppercase tracking-wider text-faint">
         {result.length} {pick(lang, "οχήματα", "cars")}
       </p>
 
       {result.length === 0 ? (
-        <div className="rounded-xl border border-line bg-carbon p-16 text-center">
+        <div className="border border-line bg-carbon p-16 text-center">
           <p className="font-display text-2xl text-bone">
             {pick(lang, "Κανένα όχημα με αυτά τα φίλτρα.", "No cars match these filters.")}
           </p>
@@ -169,7 +169,7 @@ function Chips({
           <button
             key={o}
             onClick={() => onChange(o)}
-            className={`rounded-full border px-4 py-1.5 font-mono text-[12px] uppercase tracking-wider transition-colors ${
+            className={`border px-4 py-1.5 font-mono text-[12px] uppercase tracking-wider transition-colors ${
               value === o
                 ? "border-gold bg-gold text-ink"
                 : "border-line text-mute hover:border-mute hover:text-bone"

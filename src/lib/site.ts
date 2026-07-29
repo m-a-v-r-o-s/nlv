@@ -1,5 +1,5 @@
 // Placeholder brand + contact details for this demo build. Every value here is
-// fictional (example.com, a reserved-for-documentation phone range) — swap them
+// fictional (example.com, a reserved-for-documentation phone range). Swap them
 // for the real ones before the site goes live.
 export const site = {
   name: "Στεφανίδης ΑΕ",
