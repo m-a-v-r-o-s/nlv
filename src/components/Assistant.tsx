@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { type Lang, pick } from "@/lib/i18n";
 import { claudeIconPath } from "@/lib/claudeIcon";
 import { site } from "@/lib/site";
@@ -23,7 +24,9 @@ export function Assistant({ lang }: { lang: Lang }) {
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [pulse, setPulse] = useState(false);
-  const [bottom, setBottom] = useState(16);
+  const [raised, setRaised] = useState(false);
+  const [lift, setLift] = useState(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
@@ -49,29 +52,46 @@ export function Assistant({ lang }: { lang: Lang }) {
     }
   }, [open]);
 
-  // Keep the bubble just above the moving brand logos while they're on screen.
+  // Keep the bubble clear of the brand logos while they're on screen.
+  //
+  // This deliberately does NOT run off a scroll handler. Measuring the ticker
+  // on every scroll event meant a React re-render plus a layout of a fixed
+  // element per frame, so the bubble trailed the scroll instead of moving with
+  // it, and mobile URL-bar collapse (which changes window.innerHeight mid
+  // scroll) made it stutter. An IntersectionObserver fires only when the
+  // ticker crosses the halfway line, so the position flips once and the move
+  // is a single compositor-only transform transition.
   useEffect(() => {
-    const reposition = () => {
-      const ticker = document.getElementById("brand-ticker");
-      if (!ticker) {
-        setBottom(16);
-        return;
-      }
-      const r = ticker.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > window.innerHeight * 0.5) {
-        setBottom(Math.max(16, window.innerHeight - r.top + 12));
-      } else {
-        setBottom(16);
-      }
-    };
-    reposition();
-    window.addEventListener("scroll", reposition, { passive: true });
-    window.addEventListener("resize", reposition);
+    const ticker = document.getElementById("brand-ticker");
+    if (!ticker) {
+      setRaised(false);
+      return;
+    }
+
+    // Base resting offset is bottom-4 (16px). Clearing the ticker means
+    // travelling its height plus a 12px gap, less the 16px already applied.
+    const measure = () =>
+      setLift(Math.max(0, ticker.getBoundingClientRect().height - 4));
+    measure();
+
+    // Shrinking the root's top edge to 50% makes `isIntersecting` mean
+    // "the ticker overlaps the bottom half of the viewport".
+    const io = new IntersectionObserver(
+      ([entry]) => setRaised(entry.isIntersecting),
+      { rootMargin: "-50% 0px 0px 0px" }
+    );
+    io.observe(ticker);
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(ticker);
+
     return () => {
-      window.removeEventListener("scroll", reposition);
-      window.removeEventListener("resize", reposition);
+      io.disconnect();
+      ro.disconnect();
     };
-  }, []);
+    // Re-attach on navigation: the assistant lives in the layout and doesn't
+    // remount, but the ticker only exists on the homepage.
+  }, [pathname]);
 
   const suggestions = pick(
     lang,
@@ -149,8 +169,12 @@ export function Assistant({ lang }: { lang: Lang }) {
 
   return (
     <>
-      {/* Launcher */}
-      <div className="fixed right-4 z-overlay" style={{ bottom }}>
+      {/* Launcher. Position moves via transform, never `bottom`: transform is
+          compositor-only, so the lift can't cause a layout pass mid-scroll. */}
+      <div
+        className="fixed bottom-4 right-4 z-overlay transition-transform duration-500 ease-lux motion-reduce:transition-none"
+        style={{ transform: `translate3d(0, -${raised ? lift : 0}px, 0)` }}
+      >
         {!open && pulse && (
           <span
             aria-hidden="true"
@@ -184,8 +208,8 @@ export function Assistant({ lang }: { lang: Lang }) {
       {/* Panel */}
       {open && (
         <div
-          className="fixed right-4 z-overlay flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden border border-line bg-carbon"
-          style={{ bottom: bottom + 64 }}
+          className="fixed bottom-20 right-4 z-overlay flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden border border-line bg-carbon transition-transform duration-500 ease-lux motion-reduce:transition-none"
+          style={{ transform: `translate3d(0, -${raised ? lift : 0}px, 0)` }}
         >
           <div className="flex items-center gap-3 border-b border-line px-4 py-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/15 text-gold">
